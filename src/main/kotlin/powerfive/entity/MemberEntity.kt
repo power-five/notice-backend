@@ -1,6 +1,6 @@
 package powerfive.entity
 
-import powerfive.Role
+import powerfive.domain.Role
 
 data class MemberEntity(
         val id: Long,

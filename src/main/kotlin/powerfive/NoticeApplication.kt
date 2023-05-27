@@ -2,6 +2,7 @@ package powerfive
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import powerfive.domain.Role
 
 @SpringBootApplication
 class NoticeApplication

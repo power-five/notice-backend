@@ -21,6 +21,7 @@ class MemberDao(
             MemberEntity(
                     resultSet.getLong("id"),
                     resultSet.getString("email"),
+                    resultSet.getString("nickname"),
                     resultSet.getString("password"),
                     Role.valueOf(resultSet.getString("role")),
                     resultSet.getString("image_url")

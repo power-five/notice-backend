@@ -13,3 +13,9 @@ VALUES ('cc@cc.com', '하티', '1234', 'USER',
 INSERT IGNORE INTO member(email, nickname, password, role, image_url)
 VALUES ('dd@dd.com', '관리자', '1234', 'ADMIN',
         'https://t1.daumcdn.net/news/202105/22/petzzi/20210522141352278yebt.jpg');
+
+INSERT IGNORE INTO notice(title, description, created_at, writer_id)
+VALUES ('제목입니다', '본문입니다', now(), 1);
+
+INSERT IGNORE INTO image(notice_id,image_url)
+VALUES (1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3z5gsHelQmfcSmSGZxOJKfmCU71wrnXes4JiffDvS&s');

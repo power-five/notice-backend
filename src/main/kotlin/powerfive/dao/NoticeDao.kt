@@ -3,9 +3,10 @@ package powerfive.dao
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
+import org.springframework.stereotype.Component
 import powerfive.entity.NoticeEntity
-import java.time.LocalDateTime
 
+@Component
 class NoticeDao(
         private val jdbcTemplate: JdbcTemplate,
 ) {
@@ -27,7 +28,7 @@ class NoticeDao(
         val map: Map<String, Any> = mapOf(
                 "title" to noticeEntity.title,
                 "description" to noticeEntity.description,
-                "create_at" to LocalDateTime.now(),
+                "created_at" to noticeEntity.createAt,
                 "writer_id" to noticeEntity.writerId
         )
         return simpleJdbcInsert.executeAndReturnKey(map).toLong()

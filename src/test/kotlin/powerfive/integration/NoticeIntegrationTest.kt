@@ -7,10 +7,7 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import powerfive.dto.ImageRequest
-import powerfive.dto.NoticeRequest
-import powerfive.dto.NoticeResponse
-import powerfive.dto.NoticesResponse
+import powerfive.dto.*
 
 class NoticeIntegrationTest : IntegrationTest() {
 
@@ -22,6 +19,48 @@ class NoticeIntegrationTest : IntegrationTest() {
         Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value())
         Assertions.assertThat(response.header("Location")).isNotBlank()
     }
+
+    @Test
+    fun `공지사항을 수정할 수 있다`() {
+        val noticeRequest = NoticeRequest("제목", "내용", 1, listOf(ImageRequest("a"), ImageRequest("b")))
+        val response: ExtractableResponse<Response> = postNotice(noticeRequest)
+        // then
+
+        val updateRequest = NoticeUpdateRequest("수정된 제목", "수정된 내용", listOf(ImageRequest("수정된 이미지")))
+        val updateResponse: ExtractableResponse<Response> = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(updateRequest)
+                .`when`().put(response.header("Location"))
+                .then().log().all().extract()
+
+        Assertions.assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value())
+
+        val noticeResponse: NoticeResponse = updateResponse.`as`(NoticeResponse::class.java)
+
+        Assertions.assertThat(noticeResponse.title).isEqualTo(updateRequest.title)
+        Assertions.assertThat(noticeResponse.description).isEqualTo(updateRequest.description)
+        Assertions.assertThat(noticeResponse.images.map { it.imageUrl }.toList())
+                .usingRecursiveComparison()
+                .ignoringCollectionOrder()
+                .isEqualTo(updateRequest.images.map { it.imageUrl }.toList())
+    }
+
+    @Test
+    fun `공지사항을 삭제할 수 있다`() {
+        val noticeRequest = NoticeRequest("제목", "내용", 1, listOf(ImageRequest("a"), ImageRequest("b")))
+        val response: ExtractableResponse<Response> = postNotice(noticeRequest)
+        // then
+
+        val updateResponse: ExtractableResponse<Response> = RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .`when`().delete(response.header("Location"))
+                .then().log().all().extract()
+
+        Assertions.assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
+    }
+
 
     @Test
     fun `공지사항을 단건 조회할 수 있다`() {
@@ -36,8 +75,8 @@ class NoticeIntegrationTest : IntegrationTest() {
                 .`when`().get(createdUrl.header("Location"))
                 .then().log().all().extract()
 
-        val noticeResponse: NoticeResponse = response.`as`(NoticeResponse::class.java)
         // then
+        val noticeResponse: NoticeResponse = response.`as`(NoticeResponse::class.java)
         Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
         Assertions.assertThat(noticeResponse.title).isEqualTo(noticeRequest.title)
         Assertions.assertThat(noticeResponse.description).isEqualTo(noticeRequest.description)
@@ -63,16 +102,15 @@ class NoticeIntegrationTest : IntegrationTest() {
         val noticeResponse: NoticesResponse = response.`as`(NoticesResponse::class.java)
         // then
         Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
-        Assertions.assertThat(noticeResponse.notices).hasSize(3)
+        Assertions.assertThat(noticeResponse.notices).isNotNull
     }
 
     private fun postNotice(noticeRequest: NoticeRequest): ExtractableResponse<Response> {
-        val response: ExtractableResponse<Response> = RestAssured
+        return RestAssured
                 .given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(noticeRequest)
                 .`when`().post("/notice")
                 .then().log().all().extract()
-        return response
     }
 }

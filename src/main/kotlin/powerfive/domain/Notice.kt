@@ -8,7 +8,7 @@ data class Notice(
         private var _description: String,
         val createAt: LocalDateTime,
         val writer: Member,
-        val images: List<String>
+        private var _images: List<String>
 ) {
     val title: String
         get() = _title
@@ -16,8 +16,12 @@ data class Notice(
     val description: String
         get() = _description
 
-    fun update(title: String, description: String) {
+    val images: List<String>
+        get() = _images
+
+    fun update(title: String, description: String, images: List<String>) {
         this._title = title
         this._description = description
+        this._images = images
     }
 }

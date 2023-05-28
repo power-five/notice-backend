@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import powerfive.dto.NoticeRequest
 import powerfive.dto.NoticeResponse
+import powerfive.dto.NoticeUpdateRequest
 import powerfive.dto.NoticesResponse
 import powerfive.service.NoticeService
 import java.net.URI
@@ -28,5 +29,17 @@ class NoticeController(private val noticeService: NoticeService) {
     fun create(@RequestBody request: NoticeRequest): ResponseEntity<Unit> {
         val noticeId: Long = noticeService.create(request)
         return ResponseEntity.created(URI("/notice/$noticeId")).build()
+    }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody request: NoticeUpdateRequest): ResponseEntity<NoticeResponse> {
+        val noticeResponse: NoticeResponse = noticeService.update(id, request)
+        return ResponseEntity.ok().body(noticeResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long): ResponseEntity<Unit> {
+        noticeService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

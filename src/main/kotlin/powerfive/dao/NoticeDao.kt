@@ -41,7 +41,7 @@ class NoticeDao(
 
     fun deleteById(id: Long) {
         val sql = "delete from notice where id = ?"
-        jdbcTemplate.execute(sql)
+        jdbcTemplate.update(sql, id)
     }
 
     companion object {

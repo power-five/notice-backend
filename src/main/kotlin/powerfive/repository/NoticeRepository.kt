@@ -42,4 +42,18 @@ class NoticeRepository(val noticeDao: NoticeDao, val imageDao: ImageDao, val mem
 
         return noticeId
     }
+
+    fun update(notice: Notice): Notice {
+        val noticeEntity: NoticeEntity = NoticeMapper.toEntity(notice)
+        noticeDao.update(noticeEntity);
+
+        imageDao.deleteByNoticeId(notice.id);
+        notice.images.forEach { imageDao.insert(ImageEntity(notice.id, it)) }
+
+        return notice;
+    }
+
+    fun deleteById(id: Long) {
+        noticeDao.deleteById(id)
+    }
 }

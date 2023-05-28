@@ -27,6 +27,11 @@ class ImageDao(
         return jdbcTemplate.query(sql, mapper, noticeId)
     }
 
+    fun deleteByNoticeId(id: Long) {
+        val sql = "DELETE FROM image where notice_id = ?"
+        jdbcTemplate.update(sql, id);
+    }
+
     companion object {
         val mapper = RowMapper<ImageEntity> { resultSet, rowId ->
             ImageEntity(

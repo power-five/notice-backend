@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS member
 CREATE TABLE IF NOT EXISTS notice
 (
     id          BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    title       VARCHAR(255) NOT NULL UNIQUE,
+    title       VARCHAR(255) NOT NULL,
     description TEXT         NOT NULL,
     created_at  TIMESTAMP    NOT NULL,
     writer_id   BIGINT       NOT NULL,

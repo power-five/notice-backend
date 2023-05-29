@@ -21,6 +21,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+
+    implementation("com.slack.api:slack-app-backend:1.22.2")
+    implementation("com.slack.api:slack-api-model:1.22.2")
+
+    implementation("ch.qos.logback:logback-classic")
+    implementation("org.slf4j:slf4j-api")
+
+
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.rest-assured:rest-assured:4.4.0")

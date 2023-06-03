@@ -16,13 +16,13 @@ class NoticeController(private val noticeService: NoticeService) {
     @GetMapping
     fun findAll(): ResponseEntity<NoticesResponse> {
         val noticesResponse: NoticesResponse = noticeService.findAll()
-        return ResponseEntity.ok().body(noticesResponse);
+        return ResponseEntity.ok().body(noticesResponse)
     }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ResponseEntity<NoticeResponse> {
         val noticeResponse = noticeService.findById(id)
-        return ResponseEntity.ok().body(noticeResponse);
+        return ResponseEntity.ok().body(noticeResponse)
     }
 
     @PostMapping
@@ -34,12 +34,12 @@ class NoticeController(private val noticeService: NoticeService) {
     @PutMapping("/{id}")
     fun update(@PathVariable id: Long, @RequestBody request: NoticeUpdateRequest): ResponseEntity<NoticeResponse> {
         val noticeResponse: NoticeResponse = noticeService.update(id, request)
-        return ResponseEntity.ok().body(noticeResponse);
+        return ResponseEntity.ok().body(noticeResponse)
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Unit> {
-        noticeService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        noticeService.deleteById(id)
+        return ResponseEntity.noContent().build()
     }
 }

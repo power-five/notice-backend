@@ -32,11 +32,13 @@ class NoticeRepository(val noticeDao: NoticeDao, val imageDao: ImageDao, val mem
     }
 
     fun save(noticeRequest: NoticeRequest): Long {
-        val noticeId: Long = noticeDao.insert(NoticeEntity(
+        val noticeId: Long = noticeDao.insert(
+            NoticeEntity(
                 noticeRequest.title,
                 noticeRequest.description,
                 Timestamp.valueOf(LocalDateTime.now()),
-                noticeRequest.writerId)
+                noticeRequest.writerId
+            )
         )
         noticeRequest.images.forEach { imageDao.insert(ImageEntity(noticeId, it.imageUrl)) }
 
@@ -45,12 +47,12 @@ class NoticeRepository(val noticeDao: NoticeDao, val imageDao: ImageDao, val mem
 
     fun update(notice: Notice): Notice {
         val noticeEntity: NoticeEntity = NoticeMapper.toEntity(notice)
-        noticeDao.update(noticeEntity);
+        noticeDao.update(noticeEntity)
 
-        imageDao.deleteByNoticeId(notice.id);
+        imageDao.deleteByNoticeId(notice.id)
         notice.images.forEach { imageDao.insert(ImageEntity(notice.id, it)) }
 
-        return notice;
+        return notice
     }
 
     fun deleteById(id: Long) {

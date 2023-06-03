@@ -28,11 +28,11 @@ class NoticeIntegrationTest : IntegrationTest() {
 
         val updateRequest = NoticeUpdateRequest("수정된 제목", "수정된 내용", listOf(ImageRequest("수정된 이미지")))
         val updateResponse: ExtractableResponse<Response> = RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(updateRequest)
-                .`when`().put(response.header("Location"))
-                .then().log().all().extract()
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(updateRequest)
+            .`when`().put(response.header("Location"))
+            .then().log().all().extract()
 
         Assertions.assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.OK.value())
 
@@ -41,9 +41,9 @@ class NoticeIntegrationTest : IntegrationTest() {
         Assertions.assertThat(noticeResponse.title).isEqualTo(updateRequest.title)
         Assertions.assertThat(noticeResponse.description).isEqualTo(updateRequest.description)
         Assertions.assertThat(noticeResponse.images.map { it.imageUrl }.toList())
-                .usingRecursiveComparison()
-                .ignoringCollectionOrder()
-                .isEqualTo(updateRequest.images.map { it.imageUrl }.toList())
+            .usingRecursiveComparison()
+            .ignoringCollectionOrder()
+            .isEqualTo(updateRequest.images.map { it.imageUrl }.toList())
     }
 
     @Test
@@ -53,10 +53,10 @@ class NoticeIntegrationTest : IntegrationTest() {
         // then
 
         val updateResponse: ExtractableResponse<Response> = RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .`when`().delete(response.header("Location"))
-                .then().log().all().extract()
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .`when`().delete(response.header("Location"))
+            .then().log().all().extract()
 
         Assertions.assertThat(updateResponse.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value())
     }
@@ -70,10 +70,10 @@ class NoticeIntegrationTest : IntegrationTest() {
 
         // when
         val response: ExtractableResponse<Response> = RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .`when`().get(createdUrl.header("Location"))
-                .then().log().all().extract()
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .`when`().get(createdUrl.header("Location"))
+            .then().log().all().extract()
 
         // then
         val noticeResponse: NoticeResponse = response.`as`(NoticeResponse::class.java)
@@ -94,10 +94,10 @@ class NoticeIntegrationTest : IntegrationTest() {
 
         // when
         val response: ExtractableResponse<Response> = RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .`when`().get("/notice")
-                .then().log().all().extract()
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .`when`().get("/notice")
+            .then().log().all().extract()
 
         val noticeResponse: NoticesResponse = response.`as`(NoticesResponse::class.java)
         // then
@@ -107,10 +107,10 @@ class NoticeIntegrationTest : IntegrationTest() {
 
     private fun postNotice(noticeRequest: NoticeRequest): ExtractableResponse<Response> {
         return RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(noticeRequest)
-                .`when`().post("/notice")
-                .then().log().all().extract()
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(noticeRequest)
+            .`when`().post("/notice")
+            .then().log().all().extract()
     }
 }

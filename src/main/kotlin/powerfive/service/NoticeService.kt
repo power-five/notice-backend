@@ -27,13 +27,13 @@ class NoticeService(val noticeRepository: NoticeRepository) {
     }
 
     fun update(id: Long, request: NoticeUpdateRequest): NoticeResponse {
-        val notice = noticeRepository.findById(id);
-        notice.update(request.title, request.description, request.images.map { it.imageUrl }.toList());
-        val updated: Notice = noticeRepository.update(notice);
-        return NoticeMapper.toResponse(updated);
+        val notice = noticeRepository.findById(id)
+        notice.update(request.title, request.description, request.images.map { it.imageUrl }.toList())
+        val updated: Notice = noticeRepository.update(notice)
+        return NoticeMapper.toResponse(updated)
     }
 
     fun deleteById(id: Long) {
-        noticeRepository.deleteById(id);
+        noticeRepository.deleteById(id)
     }
 }

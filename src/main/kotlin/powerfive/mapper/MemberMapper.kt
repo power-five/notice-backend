@@ -11,7 +11,14 @@ class MemberMapper {
         }
 
         fun toMember(memberEntity: MemberEntity): Member {
-            return Member(memberEntity.id, memberEntity.email, memberEntity.nickname, memberEntity.password, memberEntity.role, memberEntity.imageUrl)
+            return Member(
+                memberEntity.id,
+                memberEntity.email,
+                memberEntity.nickname,
+                memberEntity.password,
+                memberEntity.role,
+                memberEntity.imageUrl
+            )
         }
     }
 }

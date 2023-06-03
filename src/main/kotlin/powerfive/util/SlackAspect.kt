@@ -9,7 +9,7 @@ import powerfive.dto.NoticeRequest
 @Aspect
 @Component
 class SlackAspect(
-        private val slackService: SlackService
+    private val slackService: SlackService
 ) {
 
     @AfterReturning(value = "execution(* powerfive.controller.NoticeController.create(..))", returning = "result")

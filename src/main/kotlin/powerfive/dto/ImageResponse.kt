@@ -1,5 +1,5 @@
 package powerfive.dto
 
 data class ImageResponse(
-        val imageUrl: String
+    val imageUrl: String
 )

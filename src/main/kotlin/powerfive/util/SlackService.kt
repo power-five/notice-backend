@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 
 @Service
 class SlackService(
-        @Value("\${slack.webhook}") private val webhook: String
+    @Value("\${slack.webhook}") private val webhook: String
 ) {
 
     fun sendMessageToSlack(request: NoticeRequest) {
@@ -22,24 +22,24 @@ class SlackService(
         val post = toPost(request)
 
         val payload: Payload = Payload.builder()
-                .attachments(listOf(post))
-                .build()
+            .attachments(listOf(post))
+            .build()
 
         slack.send(webhook, payload)
     }
 
     private fun toPost(request: NoticeRequest): Attachment {
         val contents: List<Field> = request.description
-                .split(DELIMITER)
-                .map { Field.builder().value(it).build() }
-                .toList()
+            .split(DELIMITER)
+            .map { Field.builder().value(it).build() }
+            .toList()
 
         val post = Attachment.builder()
-                .pretext("$TAG ${request.title}")
-                .color(CONTENT_COLOR)
-                .fields(contents)
-                .footer(CREATED)
-                .ts(valueOf(Timestamp.valueOf(LocalDateTime.now()).time))
+            .pretext("$TAG ${request.title}")
+            .color(CONTENT_COLOR)
+            .fields(contents)
+            .footer(CREATED)
+            .ts(valueOf(Timestamp.valueOf(LocalDateTime.now()).time))
 
         return if (request.images.isEmpty()) post.build() else post.imageUrl(request.images[0].imageUrl).build()
     }
